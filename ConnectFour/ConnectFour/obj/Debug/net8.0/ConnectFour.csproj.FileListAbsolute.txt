@@ -1,0 +1,14 @@
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.AssemblyInfoInputs.cache
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.AssemblyInfo.cs
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.csproj.CoreCompileInputs.cache
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\bin\Debug\net8.0\ConnectFour.exe
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\bin\Debug\net8.0\ConnectFour.deps.json
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\bin\Debug\net8.0\ConnectFour.runtimeconfig.json
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\bin\Debug\net8.0\ConnectFour.dll
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\bin\Debug\net8.0\ConnectFour.pdb
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.dll
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\refint\ConnectFour.dll
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.pdb
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ConnectFour.genruntimeconfig.cache
+C:\Users\semic\Desktop\object class\Connect Four\ConnectFour\ConnectFour\obj\Debug\net8.0\ref\ConnectFour.dll
