@@ -1,138 +1,152 @@
-﻿using System;
+using System;
 
 namespace ConnectFour
 {
-    // Enum for the disc types, empty means no disc
     public enum Disc { Empty, Red, Yellow }
 
     public class GameBoard
     {
-        private const int Rows = 6; // Number of rows in the board
-        private const int Columns = 7; // Number of columns in the board
-        private Disc[,] board; // 2D array to hold the discs
+        private const int Rows = 6;
+        private const int Columns = 7;
+        private Disc[,] board;
+        private int[] columnCount;
 
         public GameBoard()
         {
-            board = new Disc[Rows, Columns]; // Initialize the board
-            for (int i = 0; i < Rows; i++) // Loop through rows
+            board = new Disc[Rows, Columns];
+            columnCount = new int[Columns];
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < Columns; j++) // Loop through columns
+                for (int j = 0; j < Columns; j++)
                 {
-                    board[i, j] = Disc.Empty; // Set each cell to empty
+                    board[i, j] = Disc.Empty;
                 }
             }
+        }
+
+        public bool IsColumnValid(int column)
+        {
+            return column >= 0 && column < Columns && columnCount[column] < Rows;
         }
 
         public bool PlaceDisc(int column, Disc disc)
         {
-            if (column < 0 || column >= Columns) return false; // Check if column is valid
+            if (!IsColumnValid(column)) return false;
 
-            for (int row = Rows - 1; row >= 0; row--) // Start from the bottom row
+            for (int row = Rows - 1; row >= 0; row--)
             {
-                if (board[row, column] == Disc.Empty) // Find the first empty cell
+                if (board[row, column] == Disc.Empty)
                 {
-                    board[row, column] = disc; // Place the disc there
-                    return true; // Successfully placed the disc
+                    board[row, column] = disc;
+                    columnCount[column]++;
+                    return true;
                 }
             }
-            return false; // Column is full
+            return false;
         }
 
         public bool CheckWin(Disc disc)
         {
-            // Check horizontal, vertical, and diagonal win conditions
             return CheckHorizontalWin(disc) || CheckVerticalWin(disc) || CheckDiagonalWin(disc);
         }
 
         private bool CheckHorizontalWin(Disc disc)
         {
-            for (int row = 0; row < Rows; row++) // Loop through rows
+            for (int row = 0; row < Rows; row++)
             {
-                for (int col = 0; col < Columns - 3; col++) // Loop through columns, stopping 3 before the end
+                for (int col = 0; col < Columns - 3; col++)
                 {
                     if (board[row, col] == disc && board[row, col + 1] == disc &&
                         board[row, col + 2] == disc && board[row, col + 3] == disc)
                     {
-                        return true; // Found 4 in a row horizontally
+                        return true;
                     }
                 }
             }
-            return false; // No horizontal win found
+            return false;
         }
 
         private bool CheckVerticalWin(Disc disc)
         {
-            for (int col = 0; col < Columns; col++) // Loop through columns
+            for (int col = 0; col < Columns; col++)
             {
-                for (int row = 0; row < Rows - 3; row++) // Loop through rows, stopping 3 before the end
+                for (int row = 0; row < Rows - 3; row++)
                 {
                     if (board[row, col] == disc && board[row + 1, col] == disc &&
                         board[row + 2, col] == disc && board[row + 3, col] == disc)
                     {
-                        return true; // Found 4 in a row vertically
+                        return true;
                     }
                 }
             }
-            return false; // No vertical win found
+            return false;
         }
 
         private bool CheckDiagonalWin(Disc disc)
         {
-            // Check for both descending and ascending diagonals
-            for (int row = 0; row < Rows - 3; row++) // Loop through rows
+            for (int row = 0; row < Rows - 3; row++)
             {
-                for (int col = 0; col < Columns - 3; col++) // Loop through columns
+                for (int col = 0; col < Columns - 3; col++)
                 {
                     if (board[row, col] == disc && board[row + 1, col + 1] == disc &&
                         board[row + 2, col + 2] == disc && board[row + 3, col + 3] == disc)
                     {
-                        return true; // Found 4 in a row diagonally (descending)
+                        return true;
                     }
                 }
             }
-            for (int row = 3; row < Rows; row++) // Loop through rows starting from the 4th row
+            for (int row = 3; row < Rows; row++)
             {
-                for (int col = 0; col < Columns - 3; col++) // Loop through columns
+                for (int col = 0; col < Columns - 3; col++)
                 {
                     if (board[row, col] == disc && board[row - 1, col + 1] == disc &&
                         board[row - 2, col + 2] == disc && board[row - 3, col + 3] == disc)
                     {
-                        return true; // Found 4 in a row diagonally (ascending)
+                        return true;
                     }
                 }
             }
-            return false; // No diagonal win found
+            return false;
+        }
+
+        public bool IsFull()
+        {
+            foreach (var count in columnCount)
+            {
+                if (count < Rows) return false;
+            }
+            return true;
         }
 
         public void PrintBoard()
         {
-            for (int row = 0; row < Rows; row++) // Loop through rows
+            for (int row = 0; row < Rows; row++)
             {
-                for (int col = 0; col < Columns; col++) // Loop through columns
+                for (int col = 0; col < Columns; col++)
                 {
-                    switch (board[row, col]) // Check the disc type
+                    switch (board[row, col])
                     {
                         case Disc.Empty:
-                            Console.Write(". "); // Print dot for empty cell
+                            Console.Write(". ");
                             break;
                         case Disc.Red:
-                            Console.Write("R "); // Print R for red disc
+                            Console.Write("R ");
                             break;
                         case Disc.Yellow:
-                            Console.Write("Y "); // Print Y for yellow disc
+                            Console.Write("Y ");
                             break;
                     }
                 }
-                Console.WriteLine(); // New line after each row
+                Console.WriteLine();
             }
-            Console.WriteLine(); // Extra new line for spacing
+            Console.WriteLine();
         }
     }
 
     public abstract class Player
     {
-        public string Name { get; set; } // Player's name
-        public Disc Disc { get; set; } // Disc type (Red or Yellow)
+        public string Name { get; set; }
+        public Disc Disc { get; set; }
 
         protected Player(string name, Disc disc)
         {
@@ -140,7 +154,7 @@ namespace ConnectFour
             Disc = disc;
         }
 
-        public abstract int GetMove(GameBoard board); // Abstract method to get the move
+        public abstract int GetMove(GameBoard board);
     }
 
     public class HumanPlayer : Player
@@ -149,13 +163,18 @@ namespace ConnectFour
 
         public override int GetMove(GameBoard board)
         {
-            Console.WriteLine($"{Name}, enter your move (1-7): "); // Prompt for move
             int column;
-            while (!int.TryParse(Console.ReadLine(), out column) || column < 1 || column > 7) // Validate input
+            bool validInput;
+            do
             {
-                Console.WriteLine("No Available Move. Enter a number between 1 and 7: "); // Error message
-            }
-            return column - 1; // Adjust for 0-based index
+                Console.WriteLine($"{Name}, enter your move (1-7): ");
+                validInput = int.TryParse(Console.ReadLine(), out column) && column >= 1 && column <= 7 && board.IsColumnValid(column - 1);
+                if (!validInput)
+                {
+                    Console.WriteLine("Invalid move. Please try again.");
+                }
+            } while (!validInput);
+            return column - 1;
         }
     }
 
@@ -171,33 +190,33 @@ namespace ConnectFour
             this.player1 = player1;
             this.player2 = player2;
             currentPlayer = player1;
-            board = new GameBoard(); // Initialize the game board
+            board = new GameBoard();
         }
 
         public void Play()
         {
-            bool gameWon = false; // Flag to check if the game is won
+            bool gameWon = false;
 
-            while (!gameWon) // Keep playing until the game is won
+            while (!gameWon)
             {
-                board.PrintBoard(); // Print the current state of the board
-                int column = currentPlayer.GetMove(board); // Get the move from the current player
-                if (board.PlaceDisc(column, currentPlayer.Disc)) // Try to place the disc
+                board.PrintBoard();
+                int column = currentPlayer.GetMove(board);
+                board.PlaceDisc(column, currentPlayer.Disc);
+                if (board.CheckWin(currentPlayer.Disc))
                 {
-                    if (board.CheckWin(currentPlayer.Disc)) // Check if the current player has won
-                    {
-                        board.PrintBoard(); // Print the board one last time
-                        Console.WriteLine($"{currentPlayer.Name} is WINNER!"); // Print win message
-                        gameWon = true; // Set the flag to true
-                    }
-                    else
-                    {
-                        currentPlayer = currentPlayer == player1 ? player2 : player1; // Switch turns
-                    }
+                    board.PrintBoard();
+                    Console.WriteLine($"{currentPlayer.Name} is the WINNER!");
+                    gameWon = true;
+                }
+                else if (board.IsFull())
+                {
+                    board.PrintBoard();
+                    Console.WriteLine("The game is a DRAW!");
+                    gameWon = true;
                 }
                 else
                 {
-                    Console.WriteLine("No Room! Try a different column."); // Error message if column is full
+                    currentPlayer = currentPlayer == player1 ? player2 : player1;
                 }
             }
         }
@@ -207,11 +226,19 @@ namespace ConnectFour
     {
         static void Main(string[] args)
         {
-            Player player1 = new HumanPlayer("Player 1", Disc.Red); // Create player 1
-            Player player2 = new HumanPlayer("Player 2", Disc.Yellow); // Create player 2
+            bool playAgain = true;
+            while (playAgain)
+            {
+                Player player1 = new HumanPlayer("Player 1", Disc.Red);
+                Player player2 = new HumanPlayer("Player 2", Disc.Yellow);
 
-            Game game = new Game(player1, player2); // Create the game
-            game.Play(); // Start the game
+                Game game = new Game(player1, player2);
+                game.Play();
+
+                Console.WriteLine("Do you want to play again? (y/n): ");
+                string response = Console.ReadLine().ToLower();
+                playAgain = response == "y";
+            }
         }
     }
 }
