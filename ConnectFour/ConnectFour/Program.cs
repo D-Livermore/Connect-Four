@@ -235,9 +235,27 @@ namespace ConnectFour
                 Game game = new Game(player1, player2);
                 game.Play();
 
-                Console.WriteLine("Do you want to play again? (y/n): ");
-                string response = Console.ReadLine().ToLower();
-                playAgain = response == "y";
+                bool validInput;
+                do
+                {
+                    Console.WriteLine("Do you want to play again? (y/n): ");
+                    string response = Console.ReadLine().ToLower();
+                    if (response == "y")
+                    {
+                        playAgain = true;
+                        validInput = true;
+                    }
+                    else if (response == "n")
+                    {
+                        playAgain = false;
+                        validInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unknown command, why not try another game?");
+                        validInput = false;
+                    }
+                } while (!validInput);
             }
         }
     }
