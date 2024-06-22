@@ -2,15 +2,18 @@ using System;
 
 namespace ConnectFour
 {
+    // Enum representing the different states of a cell in the game board
     public enum Disc { Empty, Red, Yellow }
 
+    // Class representing the game board
     public class GameBoard
     {
         private const int Rows = 6;
         private const int Columns = 7;
-        private Disc[,] board;
-        private int[] columnCount;
+        private Disc[,] board;        // 2D array representing the game board
+        private int[] columnCount;    // Array to keep track of the number of discs in each column
 
+        // Constructor to initialize the game board
         public GameBoard()
         {
             board = new Disc[Rows, Columns];
@@ -24,11 +27,13 @@ namespace ConnectFour
             }
         }
 
+        // Method to check if a column is valid for placing a disc
         public bool IsColumnValid(int column)
         {
             return column >= 0 && column < Columns && columnCount[column] < Rows;
         }
 
+        // Method to place a disc in the specified column
         public bool PlaceDisc(int column, Disc disc)
         {
             if (!IsColumnValid(column)) return false;
@@ -45,11 +50,13 @@ namespace ConnectFour
             return false;
         }
 
+        // Method to check if the specified disc has won the game
         public bool CheckWin(Disc disc)
         {
             return CheckHorizontalWin(disc) || CheckVerticalWin(disc) || CheckDiagonalWin(disc);
         }
 
+        // Method to check for a horizontal win
         private bool CheckHorizontalWin(Disc disc)
         {
             for (int row = 0; row < Rows; row++)
@@ -66,6 +73,7 @@ namespace ConnectFour
             return false;
         }
 
+        // Method to check for a vertical win
         private bool CheckVerticalWin(Disc disc)
         {
             for (int col = 0; col < Columns; col++)
@@ -82,8 +90,10 @@ namespace ConnectFour
             return false;
         }
 
+        // Method to check for a diagonal win
         private bool CheckDiagonalWin(Disc disc)
         {
+            // Check for descending diagonal (\) win
             for (int row = 0; row < Rows - 3; row++)
             {
                 for (int col = 0; col < Columns - 3; col++)
@@ -95,6 +105,8 @@ namespace ConnectFour
                     }
                 }
             }
+
+            // Check for ascending diagonal (/) win
             for (int row = 3; row < Rows; row++)
             {
                 for (int col = 0; col < Columns - 3; col++)
@@ -109,6 +121,7 @@ namespace ConnectFour
             return false;
         }
 
+        // Method to check if the game board is full
         public bool IsFull()
         {
             foreach (var count in columnCount)
@@ -118,6 +131,7 @@ namespace ConnectFour
             return true;
         }
 
+        // Method to print the game board
         public void PrintBoard()
         {
             for (int row = 0; row < Rows; row++)
@@ -143,6 +157,7 @@ namespace ConnectFour
         }
     }
 
+    // Abstract class representing a player
     public abstract class Player
     {
         public string Name { get; set; }
@@ -154,13 +169,16 @@ namespace ConnectFour
             Disc = disc;
         }
 
+        // Abstract method to get the player's move
         public abstract int GetMove(GameBoard board);
     }
 
+    // Class representing a human player
     public class HumanPlayer : Player
     {
         public HumanPlayer(string name, Disc disc) : base(name, disc) { }
 
+        // Method to get the human player's move
         public override int GetMove(GameBoard board)
         {
             int column;
@@ -178,6 +196,7 @@ namespace ConnectFour
         }
     }
 
+    // Class representing the game
     public class Game
     {
         private GameBoard board;
@@ -185,6 +204,7 @@ namespace ConnectFour
         private Player player2;
         private Player currentPlayer;
 
+        // Constructor to initialize the game
         public Game(Player player1, Player player2)
         {
             this.player1 = player1;
@@ -193,6 +213,7 @@ namespace ConnectFour
             board = new GameBoard();
         }
 
+        // Method to play the game
         public void Play()
         {
             bool gameWon = false;
@@ -222,6 +243,7 @@ namespace ConnectFour
         }
     }
 
+    // Main program class
     class Program
     {
         static void Main(string[] args)
@@ -235,6 +257,7 @@ namespace ConnectFour
                 Game game = new Game(player1, player2);
                 game.Play();
 
+                // Loop to handle replay prompt until a valid response is received
                 bool validInput;
                 do
                 {
