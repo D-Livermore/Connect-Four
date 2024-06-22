@@ -2,6 +2,21 @@ using System;
 
 namespace ConnectFour
 {
+    public class PrintInstructions //Class to print instructions for players before starting the game. 
+{
+    public void Print()
+    {
+        Console.WriteLine("Welcome to Connect Four!");
+        Console.WriteLine("Here are the rules:");
+        Console.WriteLine("- The game is played on a grid that's 6 cells high by 7 cells wide just like original connect four game.");
+        Console.WriteLine("- Player 1 is 'R' (red), and Player 2 is 'Y' (yellow). Players take turns putting their discs in any of the grid's columns.");
+        Console.WriteLine("- The first player to get 4 of their discs in a row (up, down, across, or diagonally) is the winner.");
+        Console.WriteLine("- If all cells are filled and no player has 4 in a row, the game is a draw.");
+        Console.WriteLine("- To make a move, enter a number from 1 to 7 to choose the column when it is your turn.");
+        Console.WriteLine("- Good luck and may the best player win!");
+        Console.WriteLine();
+    }
+}
     // Enum representing the different states of a cell in the game board
     public enum Disc { Empty, Red, Yellow }
 
@@ -203,6 +218,7 @@ namespace ConnectFour
         private Player player1;
         private Player player2;
         private Player currentPlayer;
+        private PrintInstructions instructions;
 
         // Constructor to initialize the game
         public Game(Player player1, Player player2)
@@ -211,11 +227,13 @@ namespace ConnectFour
             this.player2 = player2;
             currentPlayer = player1;
             board = new GameBoard();
+            instructions = new PrintInstructions();
         }
 
         // Method to play the game
         public void Play()
         {
+            instructions.Print();
             bool gameWon = false;
 
             while (!gameWon)
